@@ -3,26 +3,38 @@ import '@/styles/globals.css'
 import './styles.css'
 
 interface ICard {
-  title: string
-  description: string
-  image: string
+  title?: string
+  description?: string
+  image?: string
+  // ...other props
 }
 
-const Card = ({ title, description, image }: ICard) => (
-  <div className="unit_card_wrapper">
-    <Image
-      src={image}
-      width={200}
-      height={200}
-      alt=""
-      className="unit_card_image"
-    />
+/** Card component to be used by passing simple string parameters */
+const Card = ({ title, description, image }: ICard): JSX.Element | null => {
+  if (!title && !description && !image) return null
 
-    <div className="unit_card_content">
-      <h2 className="unit_card_title">{title}</h2>
-      <p className="unit_card_description">{description}</p>
+  return (
+    <div className="unit_card_wrapper">
+      {image && (
+        <Image
+          src={image}
+          width={200}
+          height={200}
+          alt={`${title} image`}
+          className="unit_card_image"
+        />
+      )}
+
+      {(title || description) && (
+        <div className="unit_card_content">
+          {title && <h2 className="unit_card_title">{title}</h2>}
+          {description && (
+            <p className="unit_card_description">{description}</p>
+          )}
+        </div>
+      )}
     </div>
-  </div>
-)
+  )
+}
 
 export default Card
